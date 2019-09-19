@@ -15,7 +15,7 @@ export default class Shortid extends Service {
 select shortid from shortids 
 where 1=1
 and source_url = $1
-and (time_expire > now() or time_expire = null)
+and (time_expire > now() or time_expire is null)
       `,
       [url]
     );
