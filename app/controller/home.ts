@@ -16,6 +16,6 @@ export default class HomeController extends Controller {
   public async info() {
     const id = this.ctx.params.id;
     const url = await this.service.shortid.GetUrl(id);
-    this.ctx.unsafeRedirect(url);
+    if (url != null) this.ctx.unsafeRedirect(url);
   }
 }
