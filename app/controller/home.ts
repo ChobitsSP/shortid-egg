@@ -6,14 +6,14 @@ export default class HomeController extends Controller {
     ctx.body = await ctx.service.test.sayHi("egg");
   }
 
-  public async SetUrl() {
+  public async BuildUrl() {
     const url = this.ctx.query.url;
     const key = await this.service.shortid.BuildId(url);
     const path = `${this.config.MY_HOST}/r/${key}`;
     this.ctx.body = path;
   }
 
-  public async info() {
+  public async Redirect() {
     const id = this.ctx.params.id;
     const url = await this.service.shortid.GetUrl(id);
     if (url != null) this.ctx.unsafeRedirect(url);
