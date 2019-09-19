@@ -15,21 +15,6 @@ export default (appInfo: EggAppInfo) => {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`
   };
 
-  config.pg = {
-    // database configuration
-    client: {
-      user: "postgres",
-      database: "point",
-      password: "123",
-      port: 5432,
-      host: "192.168.1.14"
-    },
-    // load into app, default is open
-    app: true,
-    // load into agent, default is close
-    agent: false
-  };
-
   // 可选
   config.redis = {
     client: {
@@ -39,8 +24,6 @@ export default (appInfo: EggAppInfo) => {
       db: 0
     }
   };
-
-  config.MY_HOST = "http://localhost:7002";
 
   // the return config will combines to EggAppConfig
   return {
