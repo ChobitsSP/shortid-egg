@@ -35,7 +35,7 @@ and (time_expire > now() or time_expire is null)
   public async GetUrl(key: string) {
     const db = this.app.pg;
 
-    const item = await PgUtils.QueryFirst<{ shortid: string }>(
+    const item = await PgUtils.QueryFirst<{ source_url: string }>(
       db,
       `
 select source_url from shortids 
@@ -45,6 +45,6 @@ and shortid = $1
       [key]
     );
 
-    return item == null ? null : item.shortid;
+    return item == null ? null : item.source_url;
   }
 }
