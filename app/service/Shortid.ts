@@ -1,18 +1,50 @@
 import { Service } from "egg";
 const shortid = require("shortid");
+import PgUtils from "../utils/PgUtils";
 
 /**
  * Shortid Service
  */
 export default class Shortid extends Service {
   public async BuildId(url: string) {
-    const key: string = shortid.generate();
-    await this.app.redis.set(key, url);
-    return key;
+    const db = this.app.pg;
+
+    const item = await PgUtils.QueryFirst<{ shortid: string }>(
+      db,
+      `
+select shortid from shortids 
+where 1=1
+and source_url = $1
+and (time_expire > now() or time_expire = null)
+      `,
+      [url]
+    );
+
+    if (item != null) return item.shortid;
+
+    const obj = {
+      shortid: shortid.generate(),
+      source_url: url
+    };
+
+    await PgUtils.Add(db, "shortids", obj);
+
+    return obj.shortid;
   }
 
   public async GetUrl(key: string) {
-    const url = await this.app.redis.get(key);
-    return url;
+    const db = this.app.pg;
+
+    const item = await PgUtils.QueryFirst<{ shortid: string }>(
+      db,
+      `
+select source_url from shortids 
+where 1=1
+and shortid = $1
+      `,
+      [key]
+    );
+
+    return item == null ? null : item.shortid;
   }
 }
