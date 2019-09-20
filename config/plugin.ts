@@ -6,12 +6,20 @@ const plugin: EggPlugin = {
   //   enable: true,
   //   package: 'egg-view-nunjucks',
   // },
+  logrotator: {
+    enable: true,
+    package: "egg-logrotator"
+  },
+  validate: {
+    enable: true,
+    package: "egg-validate"
+  },
   pg: {
     enable: true,
     package: "egg-pg"
   },
   redis: {
-    enable: true,
+    enable: false,
     package: "egg-redis"
   }
 };
